@@ -1,2 +1,2 @@
 # DSCI-633
-Chun Yu Lee : ChunYu-Lee 
+Student_name: Chun Yu Lee ;GitHub ID: ChunYu-Lee 
