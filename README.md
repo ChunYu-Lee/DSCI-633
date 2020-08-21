@@ -1,2 +1,2 @@
 # DSCI-633
-Chun Yu Lee : 358003704 
+Chun Yu Lee : ChunYu-Lee 
