@@ -126,7 +126,8 @@ f,normal,f,normal,normal,normal,t,?,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,
 f,mild,f,normal,normal,?,t,?,f,f,f,f,f,f,t,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,normal,normal,f,f,t,normal,t,a,f,f,f,p126,cochlear_poss_noise
 t,mild,f,normal,normal,mild,t,?,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,normal,normal,f,f,f,poor,t,a,f,f,f,p127,cochlear_age
 t,mild,f,normal,normal,mild,t,?,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,normal,normal,f,f,f,good,t,a,f,f,f,p128,cochlear_age
-t,mild,f,absent,absent,mild,t,?,f,f,f,f,f,f,t,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,t,f,absent,absent,f,f,f,very_good,t,a,f,f,f,p129,cochlear_age_and_noise
+t,mild,f,absent,absent,mild,t,
+,f,f,f,f,f,f,t,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,t,f,absent,absent,f,f,f,very_good,t,a,f,f,f,p129,cochlear_age_and_noise
 t,mild,f,normal,normal,?,f,?,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,normal,normal,f,f,f,normal,t,a,f,f,f,p130,cochlear_age
 f,mild,t,absent,absent,normal,f,?,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,absent,absent,f,f,f,?,t,as,f,f,f,p131,conductive_fixation
 t,normal,f,elevated,normal,?,f,?,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,t,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,f,normal,normal,f,f,f,good,t,a,f,f,f,p132,cochlear_age

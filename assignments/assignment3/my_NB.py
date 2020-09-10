@@ -1,11 +1,13 @@
 import pandas as pd
+import numpy as np
+from collections import Counter
 
 class my_NB:
 
     def __init__(self, alpha=1):
         # alpha: smoothing factor
         # P(xi = t | y = c) = (N(t,c) + alpha) / (N(c) + n(i)*alpha)
-        # where n(i) is the number of available categories of feature i
+        # where n(i) is the number of available categories (values) of feature i
         # Setting alpha = 1 is called Laplace smoothing
         self.alpha = alpha
 
@@ -27,9 +29,6 @@ class my_NB:
         # prob is a dict of prediction probabilities belonging to each categories
         # return probs = pd.DataFrame(list of prob, columns = self.classes_)
         # write your code below
-
-        ##################
-        assert (all(probs.keys() == self.classes_))
         return probs
 
 
