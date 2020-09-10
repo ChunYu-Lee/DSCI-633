@@ -12,6 +12,9 @@ class my_NB:
 		self.alpha = alpha
 
 	def fit(self, X, y):
+		# print(X.isnull().values.any())-- can test your nan value
+		# print(X.isnull().sum())
+
 		# X: pd.DataFrame, independent variables, str
 		# y: list, np.array or pd.Series, dependent variables, int or str
 		# list of classes for this model
@@ -21,27 +24,20 @@ class my_NB:
 		# self.P[yj][Xi][xi] = P(xi|yi) where Xi is the feature name and xi is the feature value, yj is a specific class label
 		self.P = {}
 
-		#pre-calculate
-
-		# get the all distinct value in Xi
 		all_possible_value = {key: set(X[key]) for key in X}
-
 		for label in self.classes_:
 			# build up the self.P[label]--> empty
 			self.P[label] = {}
-			# get all the filtered data you need(like the data fit 'y == label' you want)
 			filtered = X[y == label]
 
 			for key in X:
-				# build up the self.P[label][key] -->empty
+			# build up the self.P[label][key] -->empty
 				self.P[label][key] = {}
-				# it will be easier for calculation
-				fact = Counter(filtered[key])
+				value = Counter(filtered[key])
 
 				for i in all_possible_value[key]:
 					# lap = (nc + alpha)/(n + alpha*(# of type of variable))
-					# the good thing using all_possible_value here is when i in all_possible not in fact, fact[i] will return 0.
-					self.P[label][key][i] = (fact[i]+ self.alpha)/ (self.P_y[label] + (self.alpha * len(all_possible_value[key])) )
+					self.P[label][key][i] = (value[i]+ self.alpha)/ (self.P_y[label] + (self.alpha * len(all_possible_value[key])) )
 
 		return
 
