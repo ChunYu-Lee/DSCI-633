@@ -22,8 +22,7 @@ class my_KNN:
         return
 
     def dist(self,x):
-        # Calculate distances of training data to a single input data point (distances from self.X to x)
-        # Output np.array([distances to x])
+        # Calculate distances of training data to a single input data point (np.array)
         if self.metric == "minkowski":
             distances = "write your own code"
 
@@ -66,13 +65,11 @@ class my_KNN:
         # prob is a dict of prediction probabilities belonging to each categories
         # return probs = pd.DataFrame(list of prob, columns = self.classes_)
         probs = []
-        try:
-            X_feature = X[self.X.columns]
-        except:
-            raise Exception("Input data mismatch.")
-
-        for x in X_feature.to_numpy():
+        for x in X.to_numpy():
             neighbors = self.k_neighbors(x)
-            probs.append({key: neighbors[key] / float(self.n_neighbors) for key in self.classes_})
+            probs.append({key: neighbors[key]/float(self.n_neighbors) for key in self.classes_})
         probs = pd.DataFrame(probs, columns=self.classes_)
         return probs
+
+
+
