@@ -51,7 +51,7 @@ class my_KNN:
             distances = {}
             for i in range(len(target)):
                 length = 0
-                for k in range(len(x[i])):
+                for k in range(len(x)):
                     length += abs(x[k]-target[i][k])
                 distances[i] = length
 
