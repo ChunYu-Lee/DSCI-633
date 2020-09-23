@@ -2,7 +2,7 @@
 
 ### Make sure your repo is up-to-date
 
-Assignment codes might be modified during the semester so please pull from this repo first and overwrite your repo with the assignment3 folder. 
+Assignment codes might be modified during the semester so please pull from this repo first and overwrite your repo with the assignment3 folder.
 
 ### Build your own categorical Naive Bayes classifier
 
@@ -29,13 +29,13 @@ Output:
 
 ### Do not forget to push your local changes to the Github server.
 
- 
- ## Grading Policy 
+
+ ## Grading Policy
  - importing additional packages such as sklearn is not allowed.
  - 4 (out of 7) points will be received if A3.py successfully runs and makes predictions.
  - The rest 3 points will be given based on the percentage of same predictions with the correct implementation.
- 
-  
+
+
 ## Hint
  - If my_NB.py is too difficult to implement, you can try to complete [my_NB_hint.py](https://github.com/hil-se/fds/blob/master/assignments/assignment3/my_NB_hint.py).
  - my_NB_hint.py](https://github.com/hil-se/fds/blob/master/assignments/assignment3/my_NB_hint.py) has the predict() and predict_proba() functions already implemented. Students only need to complete the fit() functions.
