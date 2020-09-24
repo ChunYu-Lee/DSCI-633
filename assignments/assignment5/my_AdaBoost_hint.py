@@ -73,8 +73,9 @@ class my_AdaBoost:
             # Calculate probs for each label
             a = 0
             for i in range(self.n_estimators):
-                a += (self.alpha[i]* (self.estimators[i].predict(X) == label))
+                a +=(self.alpha[i]* (self.estimators[i].predict(X) == label))
             probs[label] = a
+
 
         probs = pd.DataFrame(probs, columns=self.classes_)
         return probs

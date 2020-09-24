@@ -45,19 +45,11 @@ class my_AdaBoost:
                 # Compute error rate and alpha for estimator i
                 error = np.sum(diffs * w)
             # Compute alpha for estimator i
-            self.alpha.append(log2((1-error)/error)+ln(k-1))
+            self.alpha.append(np.log((1-error)/error)+np.log(k-1))
 
             # Update wi
-            w = "write your own code"
-            w_i = {}
-            for i in range():
-                if np.array(predictions) != y:
-                    w_i[i] = expx
-                else:
-                    w_i[i] = 1
-            w_i = sum(w_i)
-
-
+            w = w*np.exp(self.alpha[i]*diffs)
+            w = w/np.sum(w)
 
         # Normalize alpha
         self.alpha = self.alpha / np.sum(self.alpha)
@@ -79,15 +71,14 @@ class my_AdaBoost:
         probs = {}
         for label in self.classes_:
             # Calculate probs for each label
-            "write your own code"
-
-
-
+            a = 0
+            for i in range(self.n_estimators):
+                a +=(self.alpha[i]* (self.estimators[i].predict(X) == label))
+            probs[label] = a
+        
+        
         probs = pd.DataFrame(probs, columns=self.classes_)
         return probs
 
-
-#w*np.exp(alpha_current)*diffs
-#w*np.exp(alpha_current*diffs)
 
 

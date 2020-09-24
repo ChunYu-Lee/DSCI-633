@@ -1,4 +1,4 @@
-from my_AdaBoost_hint import my_AdaBoost
+from my_AdaBoost import my_AdaBoost
 from sklearn.tree import DecisionTreeClassifier
 
 import pandas as pd
@@ -12,7 +12,7 @@ if __name__ == "__main__":
     y = data_train["Species"]
     # Train model
     base_estimator = DecisionTreeClassifier(criterion = "entropy", max_depth = 1)
-    clf = my_AdaBoost(base_estimator=base_estimator, n_estimators = 10)
+    clf = my_AdaBoost(base_estimator=base_estimator, n_estimators = 50)
     clf.fit(X, y)
     # Load testing data
     data_test = pd.read_csv("../data/Iris_test.csv")
