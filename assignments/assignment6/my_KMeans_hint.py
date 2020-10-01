@@ -39,20 +39,19 @@ class my_KMeans:
 
         elif self.init == "k-means++":
             cluster_centers = []
-		    w = np.array([1/len(X)]*len(X))
-		    X_ = X.to_numpy()
+            w = np.array( [1/len(X)] * len(X))
 
-		    for i in range(n_clusters):
-		        sample = np.random.choice(len(X), 1, p=w)
-		        cluster_centers.append(X_[sample])
-		        dists = []
+            for i in range(self.n_clusters):
+                sample = np.random.choice(len(X), 1, p=w)
+                cluster_centers.append(X[sample])
+                dists = []
 
-		        for x in X_:
-		            # calculate distances between x and each cluster center
-		            d = (dist(x, cluster_centers[i]))
-		            dists.append(d)
+                for x in X:
+                    # calculate distances between x and each cluster center
+                    d = (self.dist(x, cluster_centers[i]))
+                    dists.append(d)
 
-		        w = (dists/sum(dists))
+                w = (dists/sum(dists))
 
         else:
             raise Exception("Unknown value of self.init.")
@@ -84,10 +83,23 @@ class my_KMeans:
             if (last_inertia and last_inertia - inertia < self.tol) or i==self.max_iter:
                 break
             # Update cluster centers
-            # last part here -->
-            cluster_centers = "Write your own code" #find the smallest inertia
+
+            for l in range(len(clusters)):
+                min_inertia = inertia
+                for j in clusters[l]:
+                    dis_inertia = 0
+                    for k in clusters[l]:
+                        dis_inertia += self.dist(k,j)
+
+                    current_inertia = dis_inertia
+                    if (current_inertia < min_inertia):
+                        min_inertia = current_inertia
+                        target_center = j
+
+                cluster_centers[l] = target_center
 
             last_inertia = inertia
+
 
         return cluster_centers, inertia
 
