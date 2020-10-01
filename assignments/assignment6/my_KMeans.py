@@ -30,12 +30,12 @@ class my_KMeans:
         # Output cluster_centers (list)
 
         if self.init == "random":
-
+            #random_sample
             cluster_centers = []
             # start from position 0 to be, so you need n_clussters -1 position.
-            interval = int(len(X)/(self.n_clusters-1))
-            for i in range(self.n_clusters):
-                cluster_centers.append(X[interval*i])
+            w = np.array( [1/len(X)] * len(X))
+            sample = np.random.choice(len(X), self.n_clusters, p=w)
+            cluster_centers = X[sample]
 
         elif self.init == "k-means++":
             cluster_centers = []
@@ -45,13 +45,20 @@ class my_KMeans:
                 sample = np.random.choice(len(X), 1, p=w)
                 cluster_centers.append(X[sample])
                 dists = []
-
+                min_d = 0
                 for x in X:
                     # calculate distances between x and each cluster center
-                    d = (self.dist(x, cluster_centers[i]))
-                    dists.append(d)
+                    #find the min
+                    # iterate all the clusters_center
+                    _list = []
+                    for j in range(len(cluster_centers)):
+                        d = (self.dist(x, cluster_centers[j]))
+                        _list.append(d)
+                    min_d += min(_list)**2
+                    dists.append(min(_list)**2)
 
-                w = (dists/sum(dists))
+
+                w = (dists/min_d)
 
         else:
             raise Exception("Unknown value of self.init.")
@@ -74,9 +81,11 @@ class my_KMeans:
                 # calculate distances between x and each cluster center
                 dists = [self.dist(x, center) for center in cluster_centers]
                 # calculate inertia
-                inertia += min(dists)
+                inertia += (min(dists))**2
                 # find the cluster that x belongs to
-                cluster_id = dists.index(min(dists)) #find the index
+                cluster_id = dists.index(min(dists))
+                #np.min
+                 #find the index
                 # add x to that cluster
                 clusters[cluster_id].append(x)
 
@@ -86,9 +95,7 @@ class my_KMeans:
 
             for l in range(len(clusters)):
                 data = np.array(clusters[l])
-                new_centroid = np.average(data, axis = 0)
-                cluster_centers[l] = new_centroid
-
+                cluster_centers[l] = np.average(data, axis = 0)
 
             last_inertia = inertia
 
