@@ -85,18 +85,10 @@ class my_KMeans:
             # Update cluster centers
 
             for l in range(len(clusters)):
-                min_inertia = inertia
-                for j in clusters[l]:
-                    dis_inertia = 0
-                    for k in clusters[l]:
-                        dis_inertia += self.dist(k,j)
+                data = np.array(clusters[l])
+                new_centroid = np.average(data, axis = 0)
+                cluster_centers[l] = new_centroid
 
-                    current_inertia = dis_inertia
-                    if (current_inertia < min_inertia):
-                        min_inertia = current_inertia
-                        target_center = j
-
-                cluster_centers[l] = target_center
 
             last_inertia = inertia
 
@@ -127,7 +119,7 @@ class my_KMeans:
     def predict(self, X):
         # X: pd.DataFrame, independent variables, float
         # return predictions: list
-        predictions = [np.argmax(dist) for dist in self.transform(X)]
+        predictions = [np.argmin(dist) for dist in self.transform(X)]
         return predictions
 
 
