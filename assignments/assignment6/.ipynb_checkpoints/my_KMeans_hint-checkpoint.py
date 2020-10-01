@@ -33,7 +33,7 @@ class my_KMeans:
 
             cluster_centers = []
             # start from position 0 to be, so you need n_clussters -1 position.
-            interval = int(len(X)/(self.n_clusters-1))
+            interval = len(X)/(self.n_clusters-1)
             for i in range(self.n_clusters):
                 cluster_centers.append(X[interval*i])
 
