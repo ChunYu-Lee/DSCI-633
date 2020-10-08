@@ -14,26 +14,22 @@ def pca(X, n_components = 5):
     #     X_pca = X.dot(principal_components)
 
     U, s, Vh = svd(X)
-    V = np.transpose(Vh)
-    principal_components = V[:,:n_components]
 
+    # Write your own code
+    principal_components = "Write your own code"
     return principal_components
 
 def vector_norm(x, norm="Min-Max"):
     # Calculate the normalized vector
-
+    # Input x: 1-d np.array
     if norm == "Min-Max":
-        x_norm = [ (x[i]-min(x))/(max(x)-min(x)) for i in range(len(x)) ]
+        x_norm = "Write your own code"
     elif norm == "L1":
-        abs_sum = np.sum(abs(x))
-        x_norm = [ x[i]/abs_sum for i in range(len(x)) ]
+        x_norm = "Write your own code"
     elif norm == "L2":
-        sum_square = ((np.sum(x**2))**(1/2))
-        x_norm = [ x[i]/sum_square for i in range(len(x)) ]
+        x_norm = "Write your own code"
     elif norm == "Standard_Score":
-        standard_deviation = np.std(x)
-        average = np.avg(x)
-        x_norm = [ (x[i]-average)/standard_deviation for i in range(len(x)) ]
+        x_norm = "Write your own code"
     else:
         raise Exception("Unknown normlization.")
     return x_norm
@@ -60,7 +56,7 @@ def normalize(X, norm="Min-Max", axis = 1):
 
 def stratified_sampling(y, ratio, replace = True):
     #  Inputs:
-    #     y: class labels
+    #     y: a 1-d array of class labels
     #     0 < ratio < 1: number of samples = len(y) * ratio
     #     replace = True: sample with replacement
     #     replace = False: sample without replacement
@@ -72,18 +68,7 @@ def stratified_sampling(y, ratio, replace = True):
     if ratio<=0 or ratio>=1:
         raise Exception("ratio must be 0 < ratio < 1.")
     y_array = np.asarray(y)
-    u = np.unique(y_array)
     # Write your own code below
-    sample = []
-    for i in range(len(u)):
-        temp_arr = np.where(y_array == u[i])[0]
-        target_sample_amount = int(np.ceil(ratio * len(temp_arr)))
-        sampled = np.random.choice(len(temp_arr), target_sample_amount, replace = replace)
-        temp_sample = list(temp_arr[sampled])
-
-        for j in range (len(temp_sample)):
-        	sample.append(temp_sample[j])
-    sample = np.asarray(sample)
 
 
     return sample.astype(int)
