@@ -104,7 +104,7 @@ class my_evaluation:
                 for label in self.classes_:
                     tp = self.confusion_matrix[label]["TP"]
                     fn = self.confusion_matrix[label]["FN"]
-                    if tp + fn == 0:
+                    if tp + fp == 0:
                         rec_label = 0
                     else:
                         rec_label = float(tp) / (tp + fn)
@@ -124,27 +124,31 @@ class my_evaluation:
         # output: f1 = float
         if self.confusion_matrix==None:
             self.confusion()
-
-        if target in self.classes_:
-            prec = self.precision(target, average)
-            rec = self.recall(target, average)
-            if (prec == 0) or (rec ==0) or (prec+rec ==0):
-                f1_score = 0
-            else:
-                f1_score = 2 *(float(prec*rec)/(prec+rec))
-        else:
+        if target == None:
             if average == "micro":
                 f1_score = self.acc
-            elif (average == "macro") or (average == "weighted"):
-                prec = self.precision(target, average)
-                rec = self.recall(target, average)
-                if (prec == 0) or (rec ==0) or (prec+rec ==0):
-                    f1_score = 0
-                else:
-                    f1_score = 2 *(float(prec*rec)/(prec+rec))
             else:
-                raise Exception("Unknown type of average.")
-
+                f1_score = 0
+                n = len(self.classes_)
+                for label in self.classes_:
+                    tp = self.confusion_matrix[label]["TP"]
+                    prec = self.precision(target = label, average = average)
+                    rec = self.recall(target = label, average = average)
+                    if (prec == 0) or (rec ==0) or (prec+rec ==0):
+                        f1_label = 0
+                    else:
+                        f1_label = 2 *(float(prec*rec)/(prec+rec))
+                    if average == "macro":
+                        ratio = 1 / len(self.classes_)
+                    elif average == "weighted":
+                        ratio = tp / float(n)
+                    else:
+                        raise Exception("Unknown type of average.")
+                    f1_score += f1_label * ratio
+        else:
+            prec = self.precision(target, average)
+            rec = self.recall(target, average)
+            f1_score = 2 *(float(prec*rec)/(prec+rec))
 
         return f1_score
 
