@@ -114,7 +114,7 @@ class my_GA:
             else:
                 return -1
         else:
-            if (obj_a[0] > obj_b[0]) and (obj_a[1] > obj_b[1]):
+            if ( (obj_a[0] >= obj_b[0]) and (obj_a[1] > obj_b[1]) ) or ( (obj_a[0] > obj_b[0]) and (obj_a[1] >= obj_b[1]) ):
                 return 1
             else:
                 return -1
