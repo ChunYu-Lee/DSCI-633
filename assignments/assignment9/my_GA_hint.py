@@ -74,8 +74,8 @@ class my_GA:
             for fold in range(self.crossval_fold):
                 start = int(fold * size)
                 end = start + size
-                test_indices = indices[start:end]
-                train_indices = indices[0:start] + indices[end:]
+                test_indices = indices["write your own code"]
+                train_indices = indices["write your own code"] + indices["write your own code"]
                 X_train = self.data_X.loc[train_indices]
                 X_train.index = range(len(X_train))
                 X_test = self.data_X.loc[test_indices]
@@ -85,16 +85,16 @@ class my_GA:
                 y_test = self.data_y.loc[test_indices]
                 y_test.index = range(len(y_test))
                 clf.fit(X_train, y_train)
-                predictions = clf.predict(X_test)
-                pred_proba = clf.predict_proba(X_test)
-                actuals = y_test
+                predictions = "write your own code"
+                pred_proba = "write your own code"
+                actuals = "write your own code"
                 objs = np.array(self.obj_func(predictions, actuals, pred_proba))
                 if type(objs_crossval) == type(None):
-                    objs_crossval = objs*size
+                    objs_crossval = "write your own code"
                 else:
-                    objs_crossval += objs*size
+                    objs_crossval += "write your own code"
 
-            objs_crossval = objs_crossval / float(len(indices))
+            objs_crossval = objs_crossval / float(len(self.data_y))
             self.evaluated[decision] = objs_crossval
         return self.evaluated[decision]
 
@@ -108,16 +108,10 @@ class my_GA:
         obj_a = self.evaluate(a)
         obj_b = self.evaluate(b)
         # write your own code below
-        if (len(obj_a) == 1):
-            if (obj_a[0] > obj_b[0]):
-                return 1
-            else:
-                return -1
+        if "write your own code":
+            return 1
         else:
-            if ( (obj_a[0] >= obj_b[0]) and (obj_a[1] > obj_b[1]) ) or ( (obj_a[0] > obj_b[0]) and (obj_a[1] >= obj_b[1]) ):
-                return 1
-            else:
-                return -1
+            return -1
 
     def compete(self, pf_new, pf_best):
         # Compare and merge two pareto frontiers
@@ -125,14 +119,14 @@ class my_GA:
         # (exist x and y; self.is_better(x, y) == 1)
         # replace that point y in pf_best with the point x in pf_new
         # If one point x in pf_new is not dominated by any point y in pf_best (and does not exist in pf_best)
-        # (for all y in pf_best; self.is_better(y, x) == -1)
+        # (forall y in pf_best; self.is_better(y, x) == -1)
         # add that point x to pf_best
         # Return True if pf_best is modified in the process, otherwise return False
         # Write your own code below
         modified = False
         for i in range(len(pf_best)):
             for j in range(len(pf_new)):
-                if self.is_better(pf_new[j], pf_best[i]) == 1:
+                if "write your own code":
                     pf_best[i] = pf_new[j]
                     pf_new.pop(j)
                     modified = True
@@ -141,7 +135,7 @@ class my_GA:
         for j in range(len(pf_new)):
             not_dominated = True
             for i in range(len(pf_best)):
-                if self.is_better(pf_best[i], pf_new[j]) == -1:
+                if "write your own code":
                     not_dominated = False
                     break
             if not_dominated:
@@ -191,7 +185,7 @@ class my_GA:
         def cross(a, b):
             new_point = []
             for i in range(len(a)):
-                if np.random.randint(0,1) == 0:
+                if "write your own code":
                     new_point.append(a[i])
                 else:
                     new_point.append(b[i])
@@ -229,7 +223,7 @@ class my_GA:
 
     def tune(self):
         # Main function of my_GA
-        # Stop when self.iter == self.max_generation  self.life == 0
+        # Stop when self.iter == self.max_generation or self.life == 0
         # Return the best pareto frontier pf_best (list of decisions that never get binary dominated by any candidate evaluated)
         self.initialize()
         while self.life > 0 and self.iter < self.max_generation:
