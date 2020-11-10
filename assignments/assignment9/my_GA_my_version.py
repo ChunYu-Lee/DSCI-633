@@ -2,19 +2,21 @@ import numpy as np
 import pandas as pd
 from pdb import set_trace
 
+
 class my_GA:
     # Tuning with Genetic Algorithm for model parameters
 
-    def __init__(self, model, data_X, data_y, decision_boundary, obj_func, generation_size=100, selection_rate=0.5, mutation_rate=0.01, crossval_fold=5, max_generation=100, max_life=3):
+    def __init__(self, model, data_X, data_y, decision_boundary, obj_func, generation_size=100, selection_rate=0.5,
+                 mutation_rate=0.01, crossval_fold=5, max_generation=100, max_life=3):
         # inputs:
         # model: class object of the learner under tuning, e.g. my_DT
         # data_X: training data independent variables (pd.Dataframe)
         # data_y: training data dependent variables (pd.Series or list)
         # decision_boundary: list of boundaries of each decision variable,
-            # e.g. decision_boundary = [("gini", "entropy"), [1, 16], [0, 0.1]] for my_DT means:
-            # the first argument criterion can be chosen as either "gini" or "entropy"
-            # the second argument max_depth can be any number 1 <= max_depth < 16
-            # the third argument min_impurity_decrease can be any number 0 <= min_impurity_decrease < 0.1
+        # e.g. decision_boundary = [("gini", "entropy"), [1, 16], [0, 0.1]] for my_DT means:
+        # the first argument criterion can be chosen as either "gini" or "entropy"
+        # the second argument max_depth can be any number 1 <= max_depth < 16
+        # the third argument min_impurity_decrease can be any number 0 <= min_impurity_decrease < 0.1
         # obj_func: generate objectives, all objectives are higher the better
         # generation_size: number of points in each generation
         # selection_rate: percentage of survived points after selection, only affect single objective
@@ -28,7 +30,7 @@ class my_GA:
         self.decision_boundary = decision_boundary
         self.obj_func = obj_func
         self.generation_size = int(generation_size)
-        self.selection_rate = selection_rate # applies only to singe-objective
+        self.selection_rate = selection_rate  # applies only to singe-objective
         self.mutation_rate = mutation_rate
         self.crossval_fold = int(crossval_fold)
         self.max_generation = int(max_generation)
@@ -46,14 +48,14 @@ class my_GA:
         for _ in range(self.generation_size):
             x = []
             for decision in self.decision_boundary:
-                if type(decision)==list:
-                    x.append(np.random.random()*(decision[1]-decision[0])+decision[0])
+                if type(decision) == list:
+                    x.append(np.random.random() * (decision[1] - decision[0]) + decision[0])
                 else:
                     x.append(decision[np.random.randint(len(decision))])
             self.generation.append(tuple(x))
         ######################
         # check if size of generation is correct
-        assert(len(self.generation) == self.generation_size)
+        assert (len(self.generation) == self.generation_size)
         return self.generation
 
     def evaluate(self, decision):
@@ -70,10 +72,10 @@ class my_GA:
             size = int(np.ceil(len(self.data_y) / float(self.crossval_fold)))
             objs_crossval = None
             for fold in range(self.crossval_fold):
-                start = int(fold*size)
-                end  = start + size
-                test_indices = indices[start : end]
-                train_indices = indices[:start] + indices[end:]
+                start = int(fold * size)
+                end = start + size
+                test_indices = indices[start:end]
+                train_indices = indices[0:start] + indices[end:]
                 X_train = self.data_X.loc[train_indices]
                 X_train.index = range(len(X_train))
                 X_test = self.data_X.loc[test_indices]
@@ -87,12 +89,12 @@ class my_GA:
                 pred_proba = clf.predict_proba(X_test)
                 actuals = y_test
                 objs = np.array(self.obj_func(predictions, actuals, pred_proba))
-                if type(objs_crossval)==type(None):
-                    objs_crossval = objs*len(test_indices)
+                if type(objs_crossval) == type(None):
+                    objs_crossval = objs*size
                 else:
-                    objs_crossval += objs*len(test_indices)
+                    objs_crossval += objs*size
 
-            objs_crossval = objs_crossval / float(len(self.data_y))
+            objs_crossval = objs_crossval / float(len(indices))
             self.evaluated[decision] = objs_crossval
         return self.evaluated[decision]
 
@@ -106,7 +108,7 @@ class my_GA:
         obj_a = self.evaluate(a)
         obj_b = self.evaluate(b)
         # write your own code below
-        if (obj_a >= obj_b).all() & (obj_a > obj_b).any():
+        if (len([x for x,y in zip(obj_a,obj_b) if x >= y]) == len(obj_a)) and (len([i for i,j in zip(obj_a,obj_b) if i > j]) >= 1):
             return 1
         else:
             return -1
@@ -114,11 +116,11 @@ class my_GA:
     def compete(self, pf_new, pf_best):
         # Compare and merge two pareto frontiers
         # If one point y in pf_best is binary dominated by another point x in pf_new
-            # (exist x and y; self.is_better(x, y) == 1)
-            # replace that point y in pf_best with the point x in pf_new
+        # (exist x and y; self.is_better(x, y) == 1)
+        # replace that point y in pf_best with the point x in pf_new
         # If one point x in pf_new is not dominated by any point y in pf_best (and does not exist in pf_best)
-            # (forall y in pf_best; self.is_better(y, x) == -1)
-            # add that point x to pf_best
+        # (for all y in pf_best; self.is_better(y, x) == -1)
+        # add that point x to pf_best
         # Return True if pf_best is modified in the process, otherwise return False
         # Write your own code below
         modified = False
@@ -133,7 +135,7 @@ class my_GA:
         for j in range(len(pf_new)):
             not_dominated = True
             for i in range(len(pf_best)):
-                if self.is_better(pf_best[i], pf_new[j]) != -1:
+                if self.is_better(pf_best[i], pf_new[j]) == 1:
                     not_dominated = False
                     break
             if not_dominated:
@@ -143,12 +145,11 @@ class my_GA:
             pf_best.append(pf_new[j])
         return modified
 
-
     def select(self):
         # Select which points will survive based on the objectives
         # Update the following:
-            # self.pf = pareto frontier (undominated points from self.generation)
-            # self.generation = survived points
+        # self.pf = pareto frontier (undominated points from self.generation)
+        # self.generation = survived points
 
         # single-objective:
         if len(self.evaluate(self.generation[0])) == 1:
@@ -184,7 +185,7 @@ class my_GA:
         def cross(a, b):
             new_point = []
             for i in range(len(a)):
-                if np.random.randint(2) == 0:
+                if np.random.randint(0,1) == 0:
                     new_point.append(a[i])
                 else:
                     new_point.append(b[i])
@@ -192,26 +193,26 @@ class my_GA:
 
         to_add = []
         for _ in range(self.generation_size - len(self.generation)):
-            ids = np.random.choice(len(self.generation), 2, replace = False)
+            ids = np.random.choice(len(self.generation), 2, replace=False)
             new_point = cross(self.generation[ids[0]], self.generation[ids[1]])
             to_add.append(new_point)
         self.generation.extend(to_add)
         ######################
         # check if size of generation is correct
-        assert(len(self.generation) == self.generation_size)
+        assert (len(self.generation) == self.generation_size)
         return self.generation
 
     def mutate(self):
         # Uniform random mutation:
-            # each decision value in each point of self.generation
-            # has the same probability self.mutation_rate of being mutated
-            # to a random valid value
+        # each decision value in each point of self.generation
+        # has the same probability self.mutation_rate of being mutated
+        # to a random valid value
         # write your own code below
 
         for i, x in enumerate(self.generation):
             new_x = list(x)
             for j in range(len(x)):
-                if np.random.random()<self.mutation_rate:
+                if np.random.random() < self.mutation_rate:
                     decision = self.decision_boundary[j]
                     if type(decision) == list:
                         new_x[j] = np.random.random() * (decision[1] - decision[0]) + decision[0]
@@ -222,7 +223,7 @@ class my_GA:
 
     def tune(self):
         # Main function of my_GA
-        # Stop when self.iter == self.max_generation or self.life == 0
+        # Stop when self.iter == self.max_generation  self.life == 0
         # Return the best pareto frontier pf_best (list of decisions that never get binary dominated by any candidate evaluated)
         self.initialize()
         while self.life > 0 and self.iter < self.max_generation:
@@ -235,3 +236,6 @@ class my_GA:
             self.crossover()
             self.mutate()
         return self.pf_best
+
+
+
