@@ -26,7 +26,7 @@ class my_model():
         self.preprocessor = TfidfVectorizer(stop_words='english', norm='l2', use_idf=False, smooth_idf=False)
         XX = self.preprocessor.fit_transform(df_x["description"]+df_x["requirements"]+df_x["title"])
         
-        parameters = {'loss':('epsilon_insensitive', 'hinge', 'log', 'modified_huber', 'squared_hinge', 'perceptron','squared_loss', 'huber', 'squared_epsilon_insensitive' ), 'class_weight': ('balanced', 'weight'),'alpha': (1e-1, 1e-4),'penalty': ('l1','l2'), 'learning_rate': ('optimal','constant','invscaling','eta0'), 'eta0': (0.01,1)}
+        parameters = {'loss':('epsilon_insensitive', 'hinge', 'log', 'modified_huber', 'squared_hinge', 'perceptron','squared_loss', 'huber', 'squared_epsilon_insensitive' ), 'class_weight': ('balanced', 'weight'),'alpha': (1e-1, 1e-4),'penalty': ('l1','l2'), 'learning_rate': ('optimal','constant','invscaling','adaptive'), 'eta0': (0.01,1)}
         self.clf = SGDClassifier( loss='epsilon_insensitive',class_weight="balanced", alpha = 0.0001,penalty='l2', learning_rate = 'optimal',eta0 = 0.01)
         self.gs_clf = GridSearchCV(self.clf, parameters, cv=5, n_jobs=-1).fit(XX, df_y)
         return
