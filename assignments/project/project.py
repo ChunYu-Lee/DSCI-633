@@ -17,23 +17,23 @@ class my_model():
         df = pd.concat([X, y], axis=1)
         df_majority = df[df.fraudulent==0]
         df_minority = df[df.fraudulent==1]
-        df_minority_oversampled = resample(df_minority, replace=True,n_samples=len(df_majority),random_state=1234)
+        df_minority_oversampled = resample(df_minority, replace=True,n_samples=int(len(df_majority)/3),random_state=1234)
         df_oversampled = pd.concat([df_minority_oversampled, df_majority])
         df_oversampled = df_oversampled.sample(frac=1)
         df_x = df_oversampled.drop(['fraudulent'], axis=1)
         df_y = df_oversampled["fraudulent"]
         
         self.preprocessor = TfidfVectorizer(stop_words='english', norm='l2', use_idf=False, smooth_idf=False)
-        XX = self.preprocessor.fit_transform(df_x["description"]+df_x["requirements"])
+        XX = self.preprocessor.fit_transform(df_x["description"]+df_x["requirements"]+df_x["title"])
         
-        parameters = {'loss':('epsilon_insensitive', 'hinge', 'log', 'modified_huber', 'squared_hinge', 'perceptron','squared_loss', 'huber', 'squared_epsilon_insensitive' ), 'class_weight': ('balanced', 'weight'),'alpha': (1e-1, 1e-4)}
-        self.clf = SGDClassifier( loss='epsilon_insensitive',class_weight="balanced", alpha = 0.0001)
+        parameters = {'loss':('epsilon_insensitive', 'hinge', 'log', 'modified_huber', 'squared_hinge', 'perceptron','squared_loss', 'huber', 'squared_epsilon_insensitive' ), 'class_weight': ('balanced', 'weight'),'alpha': (1e-1, 1e-4),'penalty': ('l1','l2'), 'learning_rate': ('optimal','constant','invscaling','eta0'), 'eta0': (0.01,1)}
+        self.clf = SGDClassifier( loss='epsilon_insensitive',class_weight="balanced", alpha = 0.0001,penalty='l2', learning_rate = 'optimal',eta0 = 0.01)
         self.gs_clf = GridSearchCV(self.clf, parameters, cv=5, n_jobs=-1).fit(XX, df_y)
         return
 
     def predict(self, X):
         # remember to apply the same preprocessing in fit() on test data before making predictions
-        XX = self.preprocessor.transform(X["description"]+X["requirements"]) #X["description"] X["requirements"]
+        XX = self.preprocessor.transform(X["description"]+X["requirements"]+X["title"]) #X["description"] X["requirements"]
         predictions = self.gs_clf.predict(XX)
         return predictions
 
